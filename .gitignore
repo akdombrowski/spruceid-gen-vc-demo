@@ -80,6 +80,5 @@ $RECYCLE.BIN/
 node_modules
 package.json
 package-lock.json
-src/main.rs
 
 .vscode
