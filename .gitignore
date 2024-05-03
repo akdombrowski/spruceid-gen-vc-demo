@@ -72,8 +72,9 @@ $RECYCLE.BIN/
 *.jwk
 *verifiable-credential*.txt
 *verifiable-credential*.json
+*out*.json
 
-notes*.md
+*notes*.md
 
 # for prettier
 node_modules
