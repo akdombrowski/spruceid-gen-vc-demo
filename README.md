@@ -17,34 +17,45 @@ in a variety of use cases such as the digital versions of:
 
 The cli tool takes 3 arguments (in this order) which are all filepaths:
 
-  1.  **unsigned_VC_path**
-       - ***required***
-       - A `.json` file containing the *unsigned Verifiable Credential* payload
-  2. **key**
-      - *optional*
-      - >  [!CAUTION]
-        > 
-        > take proper precautions to not expose a sensitive private key!
-      - A `.jwk` file containing a key in *jwk* format, including the private key
-      - if not provided, one will be generated
+### unsigned_vc
 
-  3. **out_path**
-     - *optional*
-     - Path to dump the output, i.e., the *signed* Verifiable Credential
-     - if not provided, stdout will be used
+- ***required***
+- A `.json` file containing the *unsigned Verifiable Credential* payload
 
-## build & run
+### key
 
+> [!CAUTION]
+  > take proper precautions to not expose a sensitive private key!
+- ***optional***
+- A `.jwk` file containing a key in *jwk* format, including the private key
+- if not provided, one will be generated
 
-### development build
+### out
 
-`cargo run -- unsigned-vc.json issuer_did_key.jwk out_file_path`
+> [!WARNING]
+> The file will be overwritten if it exists!
+- ***optional***
+- Path to dump the output, i.e., the *signed* Verifiable Credential
+- if not provided, stdout will be used
+
+<hr />
+
+## building & running
+
+### development/local build & run
+
+`cargo run -- {unsigned-vc.json} {key.jwk} {out.json}`
  
- arguments come after `--` and are examples of the above 3 possible arguments
+if using cargo, the arguments are provided after `--` (to let cargo know that,
+"hey! these aren't for you! these are for the tool!")
+
+In braces `{ ... }` are example filepaths that one might feed the tool
 
 or by specifying debug target:
 
 `cargo run target/debug/spruceid`
+
+<br />
 
 ### release build
 
