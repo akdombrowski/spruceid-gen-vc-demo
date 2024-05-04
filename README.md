@@ -42,6 +42,8 @@ The cli tool takes 3 arguments (in this order) which are all filepaths:
 
 ## building & running
 
+after cloning...
+
 ### development/local build & run
 
 `cargo run -- {unsigned-vc.json} {key.jwk} {out.json}`
@@ -51,19 +53,17 @@ if using cargo, the arguments are provided after `--` (to let cargo know that,
 
 In braces `{ ... }` are example filepaths that one might feed the tool
 
-or by specifying debug target:
+<br />
 
-`cargo run target/debug/spruceid`
+There's a `-h` flag to print the help text and `-v` for debug info.
 
 <br />
 
-### release build
+Or, if you know what you're doing, please go for it.
 
-    cargo run target/releases/spruceid
+<br />
 
-## compile
-
-    cargo build
+    I would typically do something like this below for any library/sample published (this is just a start)...
 
 ## Potential Errors and Fixes
 
