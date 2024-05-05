@@ -220,7 +220,7 @@ It feels like it adds extra complexity to the usage of fn's like this. If I want
 to generate a proof with a `jwk` I can't just do the logic to get my `jwk`, but
 I have to also remember to create some instance of an `Option` like with
 `from()` or use `Some()`. Only for the library to take that option and unwrap it
-in order to use the actual `jwk` value.
+in order to use the actual `jwk` value. And, also remember to use `None` for the ssh-agent argument.
 
 I understand that it simplifies writing the library and reduces the other
 supplemental fn's that a user might have to keep track of for different cases
