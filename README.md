@@ -1,8 +1,23 @@
+<hr />
+<hr />
+While not yet complete, if interested, you can find more of my dev experience
+notes and feedback in the 
+[notes folder](./notes/)
+
+- What's likely difficult for a newcomer to digital credentials to get up to
+  speed quickly and what kinds of things can help[^1]
+
+- Areas where I hit issues or problems or unclear info off opportunities for
+  improvement[^2]
+- A partial rework/supplement of the Quickstart on SpruceID.dev[^3]
+<hr />
+<hr />
+
 # spruceid-gen-vc-demo
 
 # Demo of a Simple CLI Tool to Generate Verifiable Credentials (VC)
 
-Uses SpruceID's DIDKit to generate Verifiable Credentials[^1]
+Uses SpruceID's DIDKit[^6] to generate Verifiable Credentials[^4]
 
 Verifiable Credentials are digital tamper-evident credentials that can be used
 in a variety of use cases such as the digital versions of:
@@ -92,23 +107,28 @@ then do this:
 
     change the context url to `https://www.w3.org/2018/credentials/v1`
 
-If you see error about the `context`, and you're seeing a newer url defined in the _Verifiable_
-_Credentials Data Model v2.0_ spec[^1] as the base context (or mandated first
-value) for `context`instead of `https://www.w3.org/2018/credentials/v1`, you
-didn't necessarily misread the spec!
+You may see this error even if you see a newer url defined in the _Verifiable
+Credentials Data Model v2.0_ spec[^4] as the required base context (or mandated
+first value) for `context`instead of `https://www.w3.org/2018/credentials/v1`.
+No, you didn't necessarily misread the spec!
 
 Because of the rapid development of the Verifiable Credentials space, the
 associated specs like the _Verifiable Credentials Data Model v2.0_ are still
-evolving as stated in the spec:
+evolving as stated in the spec[^5]:
 
-    The Working Group is expecting all of the terms and URLs supplied in the JSON-LD Context to be either stabilized, or removed, before the publication of this specification as a Proposed Recommendation.[^2]
+    The Working Group is expecting all of the terms and URLs supplied in the JSON-LD Context to be either stabilized, or removed, before the publication of this specification as a Proposed Recommendation.
 
 Changes are inevitable and it may take a little bit before we're able to update
 the library. If you notice this, then it'd help us and others out if you open a
 pull request with the new change!
 
-[^1]:
+[^1]: [notes/quickHitLessons](notes/quickHitLessons)
+[^2]: [notes/room-4-improvements](notes/room-4-improvements)
+[^3]: [notes/spruceid-quickstart](notes/spruceid-quickstart)
+[^4]:
     [https://www.w3.org/TR/vc-data-model-2.0/](https://www.w3.org/TR/vc-data-model-2.0/)
 
-[^2]:
+[^5]:
     [https://www.w3.org/TR/vc-data-model-2.0/#base-context](https://www.w3.org/TR/vc-data-model-2.0/#base-context)
+
+[^6]: [https://github.com/spruceid/didkit](https://github.com/spruceid/didkit)
