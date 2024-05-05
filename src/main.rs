@@ -23,13 +23,13 @@ struct Cli {
     cred: Option<OsString>,
 
     /// path to the .jwk file containing the signing key
-    /// *Caution: this will overwrite a file that already exists, else it will
-    /// create the file and write the VC there
     #[arg(value_name = "PUBLIC_KEY")]
     #[arg(value_hint = ValueHint::FilePath)]
     key: Option<OsString>,
 
     /// path to the file to send the output
+    /// *Caution: this will overwrite a file that already exists, else it will
+    /// create the file and write the VC there
     #[arg(value_name = "OUT_FILE")]
     #[arg(value_hint = ValueHint::FilePath)]
     out_file: Option<OsString>,
