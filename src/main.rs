@@ -30,9 +30,9 @@ struct Cli {
     /// path to the file to send the output
     /// *Caution: this will overwrite a file that already exists, else it will
     /// create the file and write the VC there
-    #[arg(value_name = "OUT_FILE")]
+    #[arg(value_name = "OUTPUT_TO_PATH")]
     #[arg(value_hint = ValueHint::FilePath)]
-    out_file: Option<OsString>,
+    out: Option<OsString>,
 
     /// Turn debugging information on
     #[arg(short = 'v', long = "verbose")]
@@ -53,7 +53,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .key
         .as_deref()
         .expect("expected a path to a .jwk file containing a key as the second argument");
-    let out: Option<&OsStr> = args.out_file.as_deref();
+    let out: Option<&OsStr> = args.out.as_deref();
 
     // didkit-cli quickstart equivalent steps to generate a VC
 
