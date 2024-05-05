@@ -149,7 +149,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some(out) => {
             // !!This is a bit unsafe writing to a file at whatever path the user
             // provided without first checking if we really should...
-            println!("\nwriting to '{}'...", out.to_str()?);
+            println!("\nwriting to '{}'...", out.to_str().unwrap());
 
             if args.debug {
                 println!("\n{}", de_vc)
