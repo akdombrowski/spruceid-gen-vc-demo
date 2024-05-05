@@ -79,7 +79,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     //
     let jwk_file_contents = fs::read_to_string(key)
     .expect("expected to be able to open the jwk file, please check the filepath provided and try again");
-    let jwk: JWK = serde_json::from_str(&jwk_file_contents).unwrap();
+    let jwk: JWK = serde_json::from_str(&jwk_file_contents)?;
 
     if args.debug {
         println!("\nfrom file:\n{:#?}", jwk);
@@ -96,7 +96,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let did_resolver: &dyn DIDResolver = DID_METHODS.to_resolver();
     let cred_file = fs::read_to_string(cred)
         .expect("expected to be able to open the unsigned VC file, please check the filepath provided and try again");
-    let mut vc: VerifiableCredential = serde_json::from_str(&cred_file).unwrap();
+    let mut vc: VerifiableCredential = serde_json::from_str(&cred_file)?;
 
     if args.debug {
         println!("\nfrom file:\n{:#?}", vc);
@@ -149,7 +149,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some(out) => {
             // !!This is a bit unsafe writing to a file at whatever path the user
             // provided without first checking if we really should...
-            println!("\nwriting to '{}'...", out.to_str().unwrap());
+            println!("\nwriting to '{}'...", out.to_str()?);
 
             if args.debug {
                 println!("\n{}", de_vc)
