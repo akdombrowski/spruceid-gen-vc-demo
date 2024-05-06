@@ -1,4 +1,4 @@
-pub mod Cli {
+pub mod cli {
     use std::ffi::{OsStr, OsString};
 
     use clap::{Args, Parser, Subcommand, ValueHint};
@@ -14,7 +14,7 @@ pub mod Cli {
         long_about = "A Verification Credential generator and verifier using SpruceID's DIDKit"
     )]
     #[command(next_line_help = true)]
-    pub struct Cli_Parser {
+    pub struct CliParser {
         // /// path to a .json file containing the unsigned VC
         // #[arg(value_name = "VC")]
         // #[arg(value_hint = ValueHint::FilePath)]
@@ -73,28 +73,16 @@ pub mod Cli {
         pub key: OsString,
     }
 
-    pub async fn run(args: &Cli_Parser) -> Result<(), Box<dyn std::error::Error>> {
+    pub async fn run(args: &CliParser) -> Result<(), Box<dyn std::error::Error>> {
         // cred and key are required
         // out is optional
 
         match &args.command {
             Commands::GenerateSignedVC(gen_args) => {
-                let SignedVCArgs { cred, key } = &gen_args;
-
-                println!("\ngen_args: \n{:#?}", gen_args);
-                println!("\ncred file: {:#?}", cred);
-                println!("key file: {:#?}\n", key);
-
                 generate::generate_signed_vc(gen_args, &args.out, args.debug).await?;
             }
 
             Commands::VerifySignedVC(verify_args) => {
-                let SignedVCArgs { cred, key } = &verify_args;
-
-                println!("\ngen_args: \n{:#?}", verify_args);
-                println!("\ncred file: {:#?}", cred);
-                println!("key file: {:#?}\n", key);
-
                 verify::verify_signed_vc(verify_args, &args.out, args.debug).await?;
             }
         }

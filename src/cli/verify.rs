@@ -4,7 +4,7 @@ use didkit::{
 use std::ffi::{OsStr, OsString};
 use std::fs;
 
-use crate::Cli::SignedVCArgs;
+use crate::cli::SignedVCArgs;
 
 pub async fn verify_signed_vc(
     args: &SignedVCArgs,

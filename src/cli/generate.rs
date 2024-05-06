@@ -5,7 +5,7 @@ use didkit::{
     ContextLoader, DIDResolver, LinkedDataProofOptions, VerifiableCredential, DID_METHODS, JWK,
 };
 
-use crate::Cli::SignedVCArgs;
+use crate::cli::SignedVCArgs;
 
 pub async fn generate_signed_vc(
     args: &SignedVCArgs,
