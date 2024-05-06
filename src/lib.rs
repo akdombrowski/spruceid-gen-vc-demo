@@ -51,19 +51,19 @@ pub mod Cli {
         #[command(arg_required_else_help = true)]
         #[command(aliases=["gen", "sign", "gen-vc"])]
         #[command(name = "generate")]
-        GenerateSignedVC(GenerateArgs),
+        GenerateSignedVC(SignedVCArgs),
 
         /// Generates a signed Verifiable Credential
         #[command(arg_required_else_help = true)]
         #[command(aliases=["verifiable", "verify-signed", "check"])]
         #[command(name = "verify")]
-        VerifySignedVC(VerifyArgs),
+        VerifySignedVC(SignedVCArgs),
     }
 
     // #[command(next_line_help = true)]
     // #[command(args_conflicts_with_subcommands = true)]
     #[derive(Args, Debug)]
-    pub struct GenerateArgs {
+    pub struct SignedVCArgs {
         /// path to a .json file containing the unsigned VC
         #[arg(value_name = "VERIFIABLE_CREDENTIAL_FILE")]
         pub cred: OsString,
@@ -73,29 +73,13 @@ pub mod Cli {
         pub key: OsString,
     }
 
-    #[derive(Args, Debug)]
-    // #[command(next_line_help = true)]
-    // #[command(args_conflicts_with_subcommands = true)]
-    pub struct VerifyArgs {
-        /// path to a .json file containing the signed VC
-        #[arg(value_name = "SIGNED_VC")]
-        #[arg(value_hint = ValueHint::FilePath)]
-        #[arg(requires = "key")]
-        pub cred: OsString,
-
-        /// path to the .jwk file containing the key to use for verification
-        #[arg(value_name = "PRIVATE_KEY")]
-        #[arg(requires = "cred")]
-        pub key: OsString,
-    }
-
     pub async fn run(args: &Cli_Parser) -> Result<(), Box<dyn std::error::Error>> {
         // cred and key are required
         // out is optional
 
         match &args.command {
             Commands::GenerateSignedVC(gen_args) => {
-                let GenerateArgs { cred, key } = &gen_args;
+                let SignedVCArgs { cred, key } = &gen_args;
 
                 println!("\ngen_args: \n{:#?}", gen_args);
                 println!("\ncred file: {:#?}", cred);
@@ -105,7 +89,7 @@ pub mod Cli {
             }
 
             Commands::VerifySignedVC(verify_args) => {
-                let VerifyArgs { cred, key } = &verify_args;
+                let SignedVCArgs { cred, key } = &verify_args;
 
                 println!("\ngen_args: \n{:#?}", verify_args);
                 println!("\ncred file: {:#?}", cred);

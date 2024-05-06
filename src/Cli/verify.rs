@@ -4,14 +4,14 @@ use didkit::{
 use std::ffi::{OsStr, OsString};
 use std::fs;
 
-use crate::Cli::VerifyArgs;
+use crate::Cli::SignedVCArgs;
 
 pub async fn verify_signed_vc(
-    args: &VerifyArgs,
+    args: &SignedVCArgs,
     out: &Option<OsString>,
     debug: bool,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let VerifyArgs { cred, key } = args;
+    let SignedVCArgs { cred, key } = args;
 
     // If an out_path argument is provided,
     //    write the VC to that file,

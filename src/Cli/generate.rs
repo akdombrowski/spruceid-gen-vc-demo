@@ -5,14 +5,14 @@ use didkit::{
     ContextLoader, DIDResolver, LinkedDataProofOptions, VerifiableCredential, DID_METHODS, JWK,
 };
 
-use crate::Cli::GenerateArgs;
+use crate::Cli::SignedVCArgs;
 
 pub async fn generate_signed_vc(
-    args: &GenerateArgs,
+    args: &SignedVCArgs,
     out: &Option<OsString>,
     debug: bool,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let GenerateArgs { cred, key } = args;
+    let SignedVCArgs { cred, key } = args;
     // didkit-cli quickstart equivalent steps to generate a VC
 
     // 1. `didkit generate-ed25519-key`

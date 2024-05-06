@@ -1,11 +1,4 @@
-use std::ffi::{OsStr, OsString};
-use std::fs;
-
-use clap::{Args, Parser, Subcommand, ValueHint};
-
-use didkit::{
-    ContextLoader, DIDResolver, LinkedDataProofOptions, VerifiableCredential, DID_METHODS, JWK,
-};
+use clap::Parser;
 
 use spruceid_gen_vc_demo::Cli;
 
