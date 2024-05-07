@@ -4,16 +4,10 @@ use spruceid_gen_vc_demo::cli;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // consume user's cli input
     let args = cli::CliParser::parse();
 
-    // let cred = args.gen_args.cred.to_os_string();
-    // let key = args.gen_args.key.to_os_string();
-    // let out = args.out.as_deref();
-
-    // let gen_args = GenerateArgs { cred, key };
-
-    // let _gen_vc = generate(&gen_args, out, args.debug);
-
+    // Calls cli run to start processing with supplied input args (incl. cmd)
     cli::run(&args).await?;
 
     Ok(())

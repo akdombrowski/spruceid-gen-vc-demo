@@ -1,5 +1,7 @@
+// main starting logic for cli
+// calls different modules corresponding to the command chosen by user
 pub mod cli {
-    use std::ffi::{OsStr, OsString};
+    use std::ffi::OsString;
 
     use clap::{Args, Parser, Subcommand, ValueHint};
 
@@ -15,19 +17,6 @@ pub mod cli {
     )]
     #[command(next_line_help = true)]
     pub struct CliParser {
-        // /// path to a .json file containing the unsigned VC
-        // #[arg(value_name = "VC")]
-        // #[arg(value_hint = ValueHint::FilePath)]
-        // #[arg(required = true)]
-        // cred: Option<OsString>,
-
-        // /// path to the .jwk file containing the signing key
-        // /// *Caution: this will overwrite a file that already exists, else it will
-        // /// create the file and write the VC there
-        // #[arg(value_name = "PUBLIC_KEY")]
-        // #[arg(value_hint = ValueHint::FilePath)]
-        // key: Option<OsString>,
-        //
         /// path to the file to send the output
         #[arg(value_name = "OUT")]
         #[arg(value_hint = ValueHint::FilePath)]
@@ -51,19 +40,19 @@ pub mod cli {
         #[command(arg_required_else_help = true)]
         #[command(aliases=["gen", "sign", "gen-vc"])]
         #[command(name = "generate")]
-        GenerateSignedVC(SignedVCArgs),
+        GenerateSignedVC(CliArgs),
 
         /// Generates a signed Verifiable Credential
         #[command(arg_required_else_help = true)]
         #[command(aliases=["verifiable", "verify-signed", "check"])]
         #[command(name = "verify")]
-        VerifySignedVC(SignedVCArgs),
+        VerifySignedVC(CliArgs),
     }
 
     // #[command(next_line_help = true)]
     // #[command(args_conflicts_with_subcommands = true)]
     #[derive(Args, Debug)]
-    pub struct SignedVCArgs {
+    pub struct CliArgs {
         /// path to a .json file containing the unsigned VC
         #[arg(value_name = "VERIFIABLE_CREDENTIAL_FILE")]
         pub cred: OsString,

@@ -1,18 +1,20 @@
-use std::ffi::{OsStr, OsString};
+use std::ffi::OsString;
 use std::fs;
 
 use didkit::{
     ContextLoader, DIDResolver, LinkedDataProofOptions, VerifiableCredential, DID_METHODS, JWK,
 };
 
-use crate::cli::SignedVCArgs;
+use crate::cli::CliArgs;
 
+// Reads an unsigned VC from file and uses a jwk from file to sign the VC.
+// Optionally writes output to file, else prints to stdout.
 pub async fn generate_signed_vc(
-    args: &SignedVCArgs,
+    args: &CliArgs,
     out: &Option<OsString>,
     debug: bool,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let SignedVCArgs { cred, key } = args;
+    let CliArgs { cred, key } = args;
     // didkit-cli quickstart equivalent steps to generate a VC
 
     // 1. `didkit generate-ed25519-key`
@@ -54,7 +56,7 @@ pub async fn generate_signed_vc(
     let did_resolver: &dyn DIDResolver = DID_METHODS.to_resolver();
     let cred_file = fs::read_to_string(cred)
         .expect("expected to be able to open the unsigned VC file, please check the filepath provided and try again");
-    let mut vc: VerifiableCredential = serde_json::from_str(&cred_file).unwrap();
+    let mut vc: VerifiableCredential = serde_json::from_str(&cred_file)?;
 
     if debug {
         println!("\nfrom file:\n{:#?}", vc);
