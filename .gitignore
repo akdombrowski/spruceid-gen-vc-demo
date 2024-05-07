@@ -73,6 +73,7 @@ $RECYCLE.BIN/
 *verifiable-credential*.txt
 *verifiable-credential*.json
 *out*.json
+!examples/*
 
 *notes*.md
 

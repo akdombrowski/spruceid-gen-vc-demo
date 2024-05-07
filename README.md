@@ -29,18 +29,115 @@ in a variety of use cases such as the digital versions of:
 - concert ticket
 - insurance card
 
+<details>
+<summary>CLI Help</summary>
+
+Use with `-h` to see the help reference:
+
+```sh
+$ spruceid-gen-vc-demo -h
+DIDKit-based VC generator and verifier
+
+Usage: spruceid-gen-vc-demo generate [OPTIONS] <VERIFIABLE_CREDENTIAL_FILE> <KEY_FILE> [OUT]
+       spruceid-gen-vc-demo verify [OPTIONS] <VERIFIABLE_CREDENTIAL_FILE> <KEY_FILE> [OUT]
+       spruceid-gen-vc-demo help [COMMAND]...
+
+Arguments:
+  [OUT]
+          path to the file to send the output
+
+Options:
+  -v, --verbose
+          Turn debugging information on
+  -h, --help
+          Print help (see more with '--help')
+  -V, --version
+          Print version
+
+spruceid-gen-vc-demo generate:
+Generates a signed Verifiable Credential
+  -h, --help
+          Print help
+  -V, --version
+          Print version
+  <VERIFIABLE_CREDENTIAL_FILE>
+          path to a .json file containing the unsigned VC
+  <KEY_FILE>
+          path to the .jwk file containing the key to use for verification
+
+spruceid-gen-vc-demo verify:
+Generates a signed Verifiable Credential
+  -h, --help
+          Print help
+  -V, --version
+          Print version
+  <VERIFIABLE_CREDENTIAL_FILE>
+          path to a .json file containing the unsigned VC
+  <KEY_FILE>
+          path to the .jwk file containing the key to use for verification
+
+spruceid-gen-vc-demo help:
+Print this message or the help of the given subcommand(s)
+  [COMMAND]...
+          Print help for the subcommand(s)
+```
+
+</details>
+
 ## Arguments
 
-The cli tool takes 3 arguments (in this order) which are all filepaths:
+Both (sub)commands take the same arguments requiring two separate filepaths for
+a VC and a JWK.
 
-### unsigned_vc
+Optionally, an additional filepath can be provided to write the output to.
 
-- **_required_**
-- A `.json` file containing the _unsigned Verifiable Credential_ payload
+The order is important! From first to last:
 
-### key
+1. vc_path
+2. jwk_path
+3. (optional) output_path
 
-> [!CAUTION] take proper precautions to not expose a sensitive private key!
+> [!CAUTION]
+>
+> Take proper precautions to not expose a sensitive private key!
+
+## (Sub)Commands
+
+### _generate_
+
+Generates a signed VC from an unsigned one and a JWK.
+
+- The VC provided should be an unsigned VC.
+
+- The JWK should be the key to be used to sign the provided unsigned VC.
+
+- (Optional) output path to write to file instead of stdout
+
+Example (test files can be found in [examples/](examples/)):
+
+```sh
+spruceid-gen-vc-demo gen examples/unsigned-vc.json examples/issuer-key.jwk
+
+{"@context":"https://www.w3.org/2018/credentials/v1","id":"urn:uuid:1a87aaee-1238-4fa2-a99b-bda9f988bfa7","type":["VerifiableCredential"],"credentialSubject":{"id":"did:example:my-data-subject-identifier"},"issuer":"did:key:z6MkeuxR1HoNqe45cw4cgjEXYBcV9yft1vZhj3v9jP1kJFa9","issuanceDate":"2024-04-27T21:33:43Z","proof":{"type":"Ed25519Signature2018","proofPurpose":"assertionMethod","verificationMethod":"did:key:z6MkeuxR1HoNqe45cw4cgjEXYBcV9yft1vZhj3v9jP1kJFa9#z6MkeuxR1HoNqe45cw4cgjEXYBcV9yft1vZhj3v9jP1kJFa9","created":"2024-05-07T14:21:52.874463529Z","jws":"eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..u59OgKOXa-ARBtrnrH3JDgNL8G95O4QMLFGAX1MkNaES5UsXDMSoRCymo9RxpKO5ZLrHZJRmWR67cYNjUMc7DA"}}
+```
+
+### _verify_
+
+Verifies a signed VC with a provided JWK.
+
+- The VC provided should be a signed VC.
+
+- The JWK should be the key that was used to sign the signed VC.
+
+- (Optional) output path to write to file instead of stdout
+
+Example (test files can be found in [examples/](examples/)):
+
+```sh
+spruceid-gen-vc-demo verify examples/signed-vc.json examples/issuer-key.jwk
+
+{"checks":["proof"],"warnings":[],"errors":[]}
+```
 
 - **_optional_**
 - A `.jwk` file containing a key in _jwk_ format, including the private key
@@ -48,7 +145,9 @@ The cli tool takes 3 arguments (in this order) which are all filepaths:
 
 ### out
 
-> [!WARNING] The file will be overwritten if it exists!
+> [!WARNING]
+>
+> The file will be overwritten if it exists!
 
 - **_optional_**
 - Path to dump the output, i.e., the _signed_ Verifiable Credential
@@ -58,11 +157,16 @@ The cli tool takes 3 arguments (in this order) which are all filepaths:
 
 ## building & running
 
+The binary is compiled in the root dir as './spruceid-gen-vc-demo'.
+
+If it doesn't work on your machine or you want to play around with the source
+code, you'll need to use `cargo run -- ` or recompile.
+
 after cloning...
 
 ### development/local build & run
 
-`cargo run -- {unsigned-vc.json} {key.jwk} {out.json}`
+`cargo run -- {vc.json} {key.jwk} {out.json}`
 
 if using cargo, the arguments are provided after `--` (to let cargo know that,
 "hey! these aren't for you! these are for the tool!")
@@ -75,7 +179,7 @@ There's a `-h` flag to print the help text and `-v` for debug info.
 
 <br />
 
-Or, if you know what you're doing, please go for it.
+Or, if you know what you're doing, please go for it! 😊
 
 <br />
 
