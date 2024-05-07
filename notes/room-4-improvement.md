@@ -233,6 +233,46 @@ let vc_unsigned_jwt = vc.generate_jwt(None, &ldp, did_resolver).await?;
 println!("\n{:#?}", vc_unsigned_jwt);
 ```
 
+### Option Parameters
+
+I searched for a best practice or recommendation from some authoritative figure,
+but there doesn't seem to be a strong consensus on using Option parameters for
+_optional_ parameters.
+
+For example,
+
+```rust
+didkit::generate_proof(
+        &vc,
+        Option::from(jwk).as_ref(),
+        ldp,
+        did_resolver,
+        &mut context_loader,
+        None,
+    )
+```
+
+It feels like it adds extra complexity to the usage of fn's like this. If I want
+to generate a proof with a `jwk` I can't just do the logic to get my `jwk`, but
+I have to also remember to create some instance of an `Option` like with
+`from()` or use `Some()`. Only for the library to take that option and unwrap it
+in order to use the actual `jwk` value. And, also remember to use `None` for the ssh-agent argument.
+
+I understand that it simplifies writing the library and reduces the other
+supplemental fn's that a user might have to keep track of for different cases
+where they might need to generate a proof with a `jwk` or without (and similarly
+with the `ssh-agent`). But, is it a common use case for users to need to do both
+or every permutation?
+
+There are several alternates to consider, but if generating a proof with a `jwk`
+and no `ssh-agent` is the most common usage, then I'd recommend making the
+parameters for the main `generate_proof` fn easiest for that use case. Then,
+enable the other use cases through slightly more complicated coding. At the
+moment with my limited knowledge, I would wager that that is the most common use
+case, but it should be _verified_ (😏 yes, pun intended).
+
+I think `Structs` are probably in a different category with usage of `Option` fields, but for fn's it feels weird.
+
 [^1]:
     [https://www.w3.org/TR/vc-data-model-2.0/](https://www.w3.org/TR/vc-data-model-2.0/)
 
