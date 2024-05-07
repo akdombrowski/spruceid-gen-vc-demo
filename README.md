@@ -15,7 +15,7 @@ notes and feedback in the
 
 # spruceid-gen-vc-demo
 
-# Demo of a Simple CLI Tool to Generate Verifiable Credentials (VC)
+# A Simple CLI Tool to Generate and Verify *Verifiable Credentials* (VC)
 
 Uses SpruceID's DIDKit[^6] to generate Verifiable Credentials[^4]
 
