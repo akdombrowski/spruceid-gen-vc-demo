@@ -87,6 +87,42 @@ called `Result::unwrap()` on an `Err` value: Error("Invalid context", line: 2, c
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
 
+error for invalid json seems to come from here:
+
+```rust
+// ssi/ssi-json-ld/src/lib.rs
+
+#[derive(Debug, thiserror::Error)]
+pub enum ContextError {
+    #[error("Invalid JSON: {0}")]
+    InvalidJson(#[from] json_syntax::parse::MetaError<Span>),
+
+    #[error("Invalid JSON-LD context: {0}")]
+    InvalidContext(#[from] Meta<json_ld::syntax::context::InvalidContext, Span>),
+}
+
+
+/// Parse a JSON-LD context.
+pub fn parse_ld_context(content: &str) -> Result<RemoteContextReference, ContextError> {
+    let json = json_syntax::Value::parse_str(content, |span| span)?;
+    let context = json_ld::syntax::context::Value::try_from_json(json)?;
+    Ok(RemoteContextReference::Loaded(RemoteContext::new(
+        None, None, context,
+    )))
+}
+```
+
+```rust
+// ssi/ssi-ldp/src/error.rs
+#[derive(thiserror::Error, Debug)]
+pub enum Error {
+  ...
+    #[error(transparent)]
+    InvalidJsonLdContext(#[from] ssi_json_ld::ContextError),
+  ...
+}
+```
+
 ### fix:
 
 this _does_ work and is what's shown in the quickstart
@@ -109,7 +145,7 @@ deserialize into a `Verifiable Credential`:
 
 ```rust
 let cred_file = fs::read_to_string(cred);
-    let mut vc: VerifiableCredential = serde_json::from_str(&cred_file).unwrap();
+let mut vc: VerifiableCredential = serde_json::from_str(&cred_file).unwrap();
 let mut vc: VerifiableCredential = serde_json::from_str(&cred_file).unwrap();
 ```
 
